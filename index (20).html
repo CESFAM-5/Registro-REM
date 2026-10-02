@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Registro de actividades grupales · CESFAM N°5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F6F5; --card:#FFFFFF; --ink:#18262F; --muted:#56656E; --line:#D3DBD8;
+  --blue:#0E4C7E; --blue-soft:#E3EDF5; --mark:#F5D547; --mark-soft:#FBF0B8; --ok:#1E6B4A; --warn:#8A5A00; --danger:#A3302A;
+  --sans:"Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --paper:#121A1F; --card:#1A242B; --ink:#E6ECEF; --muted:#9AAAB3; --line:#2E3C45;
+  --blue:#7FB6E3; --blue-soft:#1C3347; --mark:#E7C93A; --mark-soft:#4A4116; --ok:#6CC59A; --warn:#E3B25A; --danger:#F08A82; } }
+:root[data-theme="dark"]{ --paper:#121A1F; --card:#1A242B; --ink:#E6ECEF; --muted:#9AAAB3; --line:#2E3C45;
+  --blue:#7FB6E3; --blue-soft:#1C3347; --mark:#E7C93A; --mark-soft:#4A4116; --ok:#6CC59A; --warn:#E3B25A; --danger:#F08A82; }
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5}
+header.top{background:var(--card);border-bottom:1px solid var(--line)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.top .wrap{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;padding-top:22px}
+.brand h1{margin:0;font-size:1.55rem;line-height:1.2;letter-spacing:-.01em}
+.brand p{margin:4px 0 0;color:var(--muted);font-size:.95rem}
+.proto{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:4px;background:var(--mark-soft);color:var(--ink);font-size:.78rem;font-weight:700;vertical-align:middle}
+nav.tabs{display:flex;gap:4px;max-width:100%;overflow-x:auto}
+@media (max-width:560px){nav.tabs button{padding:8px 9px} .seg label{padding:8px 11px} fieldset{padding:16px} .wrap{padding:0 14px}}
+nav.tabs button{font:inherit;font-weight:700;background:none;border:none;border-bottom:3px solid transparent;padding:10px 14px;color:var(--muted);cursor:pointer}
+nav.tabs button[aria-selected="true"]{color:var(--blue);border-bottom-color:var(--blue)}
+main.wrap{padding-top:24px;padding-bottom:60px}
+.view{display:none}.view.on{display:block}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:28px;align-items:start}
+@media (max-width:920px){.grid{grid-template-columns:minmax(0,1fr)}}
+fieldset{min-width:0;border:none;margin:0 0 22px;padding:20px 22px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+legend{float:left;width:100%;padding:0;margin:0 0 14px;font-weight:700;font-size:1.1rem}
+fieldset > :not(legend){clear:both}
+.legend-note{display:block;font-weight:400;font-size:.9rem;color:var(--muted);margin-top:2px}
+label{display:block;font-weight:700;font-size:.92rem;margin-bottom:4px}
+.field{margin-bottom:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row5{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px}
+@media (max-width:560px){.row2{grid-template-columns:minmax(0,1fr)} .seg{display:flex} .seg label{flex:1 1 0;min-width:0;text-align:center;padding:8px 2px;font-size:.85rem}}
+input[type=text],input[type=date],input[type=number],select,textarea{width:100%;font:inherit;font-size:1rem;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:9px 10px}
+textarea{min-height:70px;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:3px solid var(--blue);outline-offset:1px}
+.seg{display:inline-flex;max-width:100%;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg label{margin:0;padding:8px 16px;font-weight:700;cursor:pointer;background:var(--paper)}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label:has(input:checked){background:var(--blue);color:var(--card)}
+.seg label:has(input:focus-visible){outline:3px solid var(--blue);outline-offset:-3px}
+.types{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.type{position:relative;display:block;border:1px solid var(--line);border-radius:8px;padding:12px 14px;cursor:pointer;background:var(--paper);font-weight:400}
+.type input{position:absolute;opacity:0}
+.type strong{display:block;font-size:1rem}
+.type span{display:block;color:var(--muted);font-size:.86rem;line-height:1.35;margin-top:3px}
+.type:has(input:checked){border-color:var(--blue);background:var(--blue-soft);box-shadow:inset 4px 0 0 var(--blue)}
+.type:has(input:focus-visible){outline:3px solid var(--blue)}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:400}
+.check input{width:20px;height:20px;margin-top:2px;flex:none}
+details.more summary{cursor:pointer;color:var(--blue);font-weight:700;margin:6px 0 10px}
+.hint{color:var(--muted);font-size:.88rem;margin:4px 0 0}
+.err{color:var(--danger);font-size:.9rem;font-weight:700;margin:6px 0 0}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:inherit;font-weight:700;border-radius:7px;padding:10px 18px;border:1px solid var(--blue);background:var(--blue);color:var(--card);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--blue)}
+.btn.small{padding:5px 10px;font-size:.88rem}
+.btn.danger{border-color:var(--danger);color:var(--danger);background:transparent}
+/* Panel REM: el elemento protagonista */
+aside.rem{position:sticky;top:calc(16px + env(safe-area-inset-top,0px));background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+@media (max-width:920px){aside.rem{position:static}}
+.rem-head{padding:16px 18px;border-bottom:1px solid var(--line)}
+.rem-head h2{margin:0;font-size:1.1rem}
+.rem-head p{margin:4px 0 0;color:var(--muted);font-size:.88rem}
+.code-chip{font-family:var(--mono);font-size:.9rem;background:var(--paper);border:1px dashed var(--line);border-radius:5px;padding:2px 8px}
+ul.cells{list-style:none;margin:0;padding:6px 0;max-height:60vh;overflow:auto}
+ul.cells li{display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;padding:10px 18px;border-bottom:1px solid var(--line)}
+ul.cells li:last-child{border-bottom:none}
+.ref{font-family:var(--mono);font-size:.86rem;align-self:start;white-space:nowrap}
+.ref b{display:inline-block;background:var(--mark);color:#1b1b1b;padding:0 5px;border-radius:2px;font-weight:500}
+.cell-desc{font-size:.88rem;line-height:1.35}
+.cell-desc small{display:block;color:var(--muted)}
+.cell-val{font-family:var(--mono);font-size:1.05rem;font-weight:500;align-self:start}
+.flag{grid-column:2 / 4;font-size:.8rem;color:var(--warn)}
+.flag::before{content:"Por validar: ";font-weight:700}
+.empty{padding:22px 18px;color:var(--muted);font-size:.92rem}
+.state-note{margin:0;padding:10px 18px;background:var(--mark-soft);font-size:.88rem}
+@media (prefers-reduced-motion:no-preference){ ul.cells li.new .ref b{animation:mark .9s ease-out} }
+@keyframes mark{from{background:transparent;box-shadow:inset 0 -2px 0 var(--mark)}to{background:var(--mark)}}
+/* Tablas */
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin-bottom:16px}
+.toolbar .field{margin:0}
+.tablebox{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--paper);font-weight:700;white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td.mono{font-family:var(--mono);font-size:.84rem;white-space:nowrap}
+tr.group td{background:var(--blue-soft);font-weight:700}
+.badge{display:inline-block;padding:1px 8px;border-radius:999px;font-size:.8rem;font-weight:700;border:1px solid currentColor}
+.badge.Realizada{color:var(--ok)}.badge.Programada{color:var(--blue)}.badge.Suspendida{color:var(--muted)}
+h3{font-size:1.15rem;margin:30px 0 10px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:8px;font-weight:700;display:none;max-width:90vw}
+.toast.on{display:block}
+.intro{max-width:70ch;color:var(--muted);margin:0 0 18px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <h1>Registro de actividades grupales <span class="proto">Prototipo</span></h1>
+      <p>CESFAM N°5 · Del registro de cada actividad al REM Serie A, sin paloteo</p>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-view="v-reg">Registrar</button>
+      <button role="tab" aria-selected="false" data-view="v-list">Actividades</button>
+      <button role="tab" aria-selected="false" data-view="v-cons">Consolidado</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+<!-- ============ REGISTRAR ============ -->
+<section id="v-reg" class="view on">
+<div class="grid">
+<form id="f" novalidate>
+  <fieldset>
+    <legend>Lo básico</legend>
+    <div class="field"><label for="nombre">Nombre de la actividad</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Ej.: Taller de alimentación en junta de vecinos Los Aromos" required></div>
+    <div class="row2">
+      <div class="field"><label for="fecha">Fecha</label><input type="date" id="fecha" name="fecha" required></div>
+      <div class="field"><label>Estado</label>
+        <div class="seg" role="radiogroup">
+          <label><input type="radio" name="estado" value="Programada"> Programada</label>
+          <label><input type="radio" name="estado" value="Realizada" checked> Realizada</label>
+          <label><input type="radio" name="estado" value="Suspendida"> Suspendida</label>
+        </div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="responsable">Responsable</label><input type="text" id="responsable" name="responsable" placeholder="Nombre o cargo"></div>
+      <div class="field"><label for="equipo">Equipo o programa</label><input type="text" id="equipo" name="equipo" list="equipos" placeholder="Ej.: Salud mental">
+        <datalist id="equipos"><option>Promoción de la salud</option><option>Participación social</option><option>PESPI</option><option>Salud mental</option><option>Programa cardiovascular</option><option>Salud de la mujer</option><option>Infancia</option><option>Más Adultos Mayores Autovalentes</option><option>Espacios Amigables</option></datalist></div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>¿Qué tipo de actividad es?</legend>
+    <div class="types" id="types"></div>
+  </fieldset>
+
+  <fieldset id="detail" hidden>
+    <legend>Detalles <span class="legend-note">Estas respuestas definen a qué celdas del REM va la actividad.</span></legend>
+    <div id="detailBody"></div>
+  </fieldset>
+
+  <fieldset id="people">
+    <legend>Participantes</legend>
+    <div id="metaBox" class="field" hidden>
+      <label for="meta">Participantes esperados (meta)</label>
+      <input type="number" min="0" id="meta" name="meta" inputmode="numeric">
+      <p class="hint">Sirve para la programación mensual. Cuando la actividad se realice, se registran las cifras reales.</p>
+    </div>
+    <div id="realBox">
+      <div class="row5">
+        <div class="field"><label for="sesiones">Sesiones</label><input type="number" min="1" id="sesiones" name="sesiones" value="1" inputmode="numeric"></div>
+        <div class="field"><label for="h">Hombres</label><input type="number" min="0" id="h" name="h" inputmode="numeric"></div>
+        <div class="field"><label for="m">Mujeres</label><input type="number" min="0" id="m" name="m" inputmode="numeric"></div>
+        <div class="field"><label>Total</label><p id="tot" style="margin:9px 0 0;font-size:1.2rem;font-weight:700">0</p></div>
+      </div>
+      <p class="hint" style="margin-top:-6px;margin-bottom:12px">De esas personas, ¿cuántas…?</p>
+      <div class="row5">
+        <div class="field"><label for="po">Pueblos originarios</label><input type="number" min="0" id="po" name="po" inputmode="numeric"></div>
+        <div class="field"><label for="mig">Migrantes</label><input type="number" min="0" id="mig" name="mig" inputmode="numeric"></div>
+        <div class="field"><label for="prais">PRAIS</label><input type="number" min="0" id="prais" name="prais" inputmode="numeric"></div>
+      </div>
+      <details class="more" id="genderBox" hidden><summary>Identidad de género (la pide el REM A19b)</summary>
+        <div class="row5">
+          <div class="field"><label for="tm">Trans masculino</label><input type="number" min="0" id="tm" name="tm"></div>
+          <div class="field"><label for="tf">Trans femenina</label><input type="number" min="0" id="tf" name="tf"></div>
+          <div class="field"><label for="nb">No binarie</label><input type="number" min="0" id="nb" name="nb"></div>
+          <div class="field"><label for="nr">No revelado</label><input type="number" min="0" id="nr" name="nr"></div>
+        </div>
+      </details>
+      <div class="field" style="max-width:260px"><label for="meta2">Meta de participantes (si se programó)</label><input type="number" min="0" id="meta2" inputmode="numeric"></div>
+    </div>
+    <div class="field"><label for="obs">Observaciones</label><textarea id="obs" name="obs" placeholder="Opcional"></textarea></div>
+    <div id="errs"></div>
+    <div class="actions">
+      <button type="submit" class="btn" id="saveBtn">Guardar registro</button>
+      <button type="button" class="btn ghost" id="resetBtn">Limpiar formulario</button>
+    </div>
+  </fieldset>
+</form>
+
+<aside class="rem" aria-live="polite">
+  <div class="rem-head">
+    <h2>Hacia el REM</h2>
+    <p>Código: <span class="code-chip" id="codeView">se asigna al guardar</span></p>
+  </div>
+  <p class="state-note" id="stateNote" hidden></p>
+  <ul class="cells" id="cells"><li class="empty" style="display:block">Elige el tipo de actividad y completa los detalles. Aquí verás en qué celdas del REM quedará registrada.</li></ul>
+</aside>
+</div>
+</section>
+
+<!-- ============ ACTIVIDADES ============ -->
+<section id="v-list" class="view">
+  <p class="intro">Cada actividad tiene un código único. Una actividad programada se completa con "Registrar realización", así la programación y la cobertura quedan unidas por el mismo código.</p>
+  <div class="toolbar">
+    <div class="field"><label for="fMes">Mes</label><input type="month" id="fMes"></div>
+    <div class="field"><label for="fEst">Estado</label><select id="fEst"><option value="">Todos</option><option>Programada</option><option>Realizada</option><option>Suspendida</option></select></div>
+    <button class="btn ghost" id="csvReg">Descargar registros (CSV)</button>
+    <button class="btn ghost" id="demoBtn">Cargar ejemplos</button>
+  </div>
+  <div class="tablebox"><table id="tList"></table></div>
+</section>
+
+<!-- ============ CONSOLIDADO ============ -->
+<section id="v-cons" class="view">
+  <p class="intro">Suma de todas las actividades <strong>realizadas</strong> del mes, celda por celda. La última columna muestra qué registros componen cada número.</p>
+  <div class="toolbar">
+    <div class="field"><label for="cMes">Mes a informar</label><input type="month" id="cMes"></div>
+    <button class="btn ghost" id="csvCons">Descargar consolidado (CSV)</button>
+  </div>
+  <div class="tablebox"><table id="tCons"></table></div>
+  <h3>Programación y cobertura</h3>
+  <p class="intro">Base para la planilla mensual 2027: lo programado para el mes y lo efectivamente realizado.</p>
+  <div class="tablebox"><table id="tCob"></table></div>
+</section>
+</main>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+// ===== Catálogo REM Serie A 2026 (coordenadas tomadas de SA_26_V1_2_FEB_26.xlsm) =====
+const CAT = {
+  espacios19: ["Comunas, comunidades","Espacios amigables en APS","Lugares de trabajo","Establecimientos de educación","Espacio intercultural"],
+  condicionantes: ["Actividad física","Alimentación","Ambiente libre de humo de tabaco","Factores protectores psicosociales","Factores protectores ambientales","Derechos humanos","Salud sexual y prevención de VIH/SIDA e ITS","Factores protectores psicosociales de pueblos originarios","Factores protectores psicosociales de migrantes","Factores protectores psicosociales PRAIS"],
+  b1Acts: [
+    {label:"Evento masivo", row:129},
+    {label:"Reunión de planificación participativa", row:134},
+    {label:"Jornada o seminario", row:139},
+    {label:"Educación grupal", row:144}
+  ],
+  b2Tipos: ["Autoestima y autocuidado","Mente sana y cuerpo sano","Comunicación","Yo me cuido","Control del tabaco","Otro tipo de taller"],
+  b3Esp: ["Comunas, comunidades","Espacios amigables en APS","Lugares de trabajo","Establecimientos educacionales","Espacio intercultural","Espacio intersectorial","Otros"],
+  b3Tipos: ["Reunión de gestión","Reunión masiva de gestión","Acción de comunicación y difusión","Preparación de actividades educativas","Entrevista","Investigación y capacitación de RRHH"],
+  b4Esp: ["Espacios comunitarios","Establecimientos educacionales","Centros de salud","Espacio intercultural"],
+  b4Tem: ["Actividad física","Alimentación","Libre de humo de tabaco","Factores protectores psicosociales","Prevención consumo de alcohol y otras drogas","Salud sexual y prevención de VIH/ITS","Otros tipos de talleres"],
+  dDest: ["Lugar de trabajo","Institución (ELEAM, cárcel, colegio, sala cuna, jardín)","Grupo comunitario"],
+  b19Tipos: ["Administración y/o gestión","Entrevistas","Reuniones con el intrasector","Reuniones con el intersector","Asesoría técnica","Jornadas de intercambio de experiencias","Actividades de difusión y comunicación","Educación y capacitación comunitaria","Eventos masivos (asambleas, cabildos, otros)","Pasantías","Comunidades de aprendizaje","Mentorías"],
+  b19Inst: ["Consejo de la Sociedad Civil (COSOC)","Instancia de participación de adolescentes y jóvenes","Consejo Consultivo de Usuarios","Consejo de Desarrollo Local","Consejo de Integración de la Red Asistencial (CIRA)","Comité o mesa de trabajo","Cabildo ciudadano territorial o sectorial","Instancia de participación indígena en salud","Consejo interreligioso","Otra instancia de participación"],
+  b19Lineas: ["Cuenta pública participativa","Presupuesto participativo","Consulta y/o diálogo ciudadano","Participación en proyecto de inversión","Apoyo al voluntariado","Diagnóstico participativo","Planificación participativa","Ejecución participativa","Monitoreo y/o evaluación participativa","Sistematización participativa","Capacitación de equipos y directivos de salud","Capacitación de dirigentes, comunidad y sociedad civil","Actividad con pueblos originarios","Actividad con migrantes"],
+  a27Temas: [[56,"Estimulación desarrollo psicomotor"],[57,"Nutrición — Riesgo de malnutrición por exceso"],[58,"Nutrición — Malnutrición por exceso"],[59,"Nutrición — Malnutrición de déficit"],[60,"Nutrición — Sin riesgo de malnutrición"],[61,"Prevención de IRA - ERA"],[62,"Prevención de accidentes"],[63,"Salud buco-dental"],[64,"Prevención violencia de género"],[65,"Salud sexual y reproductiva — Hombres"],[66,"Salud sexual y reproductiva — Mujeres"],[67,"Talleres de climaterio"],[68,"Educación prenatal"],[69,"Visita guiada a la maternidad — Primigesta"],[70,"Visita guiada a la maternidad — Multípara"],[71,"Promoción de salud mental"],[72,"Desarrollo infantil temprano — Lenguaje"],[73,"Desarrollo infantil temprano — Motor"],[74,"Desarrollo infantil temprano — Otros"],[75,"Habilidades parentales — Nadie es perfecto"],[76,"Habilidades parentales — Familias fuertes"],[77,"Habilidades parentales — Otros"],[78,"Apoyo madre a madre"],[79,"Prevención de salud mental — Suicidio"],[80,"Prevención de salud mental — Trastorno mental"],[81,"Prevención alcohol y drogas"],[82,"Antitabáquica (excluye REM 23)"],[83,"Prevención transmisión vertical VIH-Sífilis"],[84,"Otras áreas temáticas"],[85,"Adulto mayor — Estimulación de memoria"],[86,"Adulto mayor — Prevención de caídas"],[87,"Adulto mayor — Estimulación de actividad física"],[88,"Adulto mayor — Autocuidado"],[89,"Adulto mayor — Otras temáticas"],[90,"Uso racional de medicamentos"],[91,"Resistencia antimicrobianos"],[92,"Cuidadores PADDS — Autocuidado del cuidador/a"],[93,"Cuidadores PADDS — Cuidados de la persona con dependencia"],[94,"Cuidadores PADDS — Redes y sistemas de apoyo"],[95,"Cuidadores PADDS — Fin de vida y duelo"],[96,"Seguridad vial — Hombres"],[97,"Seguridad vial — Mujeres"]],
+  a27Quien: ["Un profesional","Dos o más profesionales","Un profesional y un técnico en enfermería","Técnico en enfermería","Facilitador/a intercultural pueblos originarios"],
+  tipos: [
+    {id:"promo", label:"Promoción o educación grupal", hint:"Eventos masivos, jornadas, seminarios, educaciones grupales, reuniones de planificación con la comunidad"},
+    {id:"vidasana", label:"Taller de Vida Sana", hint:"Talleres grupales de autocuidado, autoestima, comunicación, tabaco"},
+    {id:"amigables", label:"Taller en Espacios Amigables", hint:"Talleres grupales del programa de adolescentes"},
+    {id:"gestion", label:"Actividad de gestión", hint:"Reuniones, difusión, preparación de material, entrevistas, capacitación"},
+    {id:"participacion", label:"Participación social", hint:"Consejos, mesas de trabajo, cuentas públicas, diálogos, diagnósticos participativos"},
+    {id:"orientacion", label:"Orientación o educación en terreno", hint:"Actividad comunitaria fuera del CESFAM en el marco epidemiológico"}
+  ]
+};
+
+const COLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const col = i => COLS[i]; // índice 0 = A
+
+function totalPart(r){ return (+r.h||0)+(+r.m||0); }
+
+// Motor: recibe un registro y devuelve las celdas REM que alimenta.
+// Cada salida: {hoja, seccion, celda, fila, columna, valor, regla, validar}
+function remOutputs(r){
+  const out = [];
+  const push = (hoja, seccion, c, rowNum, fila, columna, valor, regla, validar) => {
+    if (valor === 0 || valor === "" || valor == null || isNaN(valor)) return;
+    out.push({hoja, seccion, celda: c + rowNum, fila, columna, valor:+valor, regla, validar: validar||""});
+  };
+  const tot = totalPart(r);
+  const i = k => (r[k] === "" || r[k] == null) ? -1 : +r[k];
+
+  if (r.tipo === "promo" && i("b1Act")>=0 && i("espacio")>=0 && i("cond")>=0){
+    const a = CAT.b1Acts[i("b1Act")], row = a.row + i("espacio");
+    const fila = a.label + " · " + CAT.espacios19[i("espacio")];
+    push("A19a","B.1", col(3+i("cond")), row, fila, CAT.condicionantes[i("cond")], 1, "1 actividad en la condicionante abordada");
+    push("A19a","B.1", "O", row, fila, "Total participantes", tot, "Hombres + mujeres");
+    if (r.alsoA27 && i("b1Act")===3 && i("a27Tema")>=0 && i("a27Quien")>=0){
+      const t = CAT.a27Temas[i("a27Tema")];
+      push("A27","B", col(4+i("a27Quien")), t[0], t[1], CAT.a27Quien[i("a27Quien")], +r.sesiones||1, "Número de sesiones", "¿La educación grupal se registra en A19a y también en A27?");
+    }
+  }
+  if (r.tipo === "vidasana" && i("espacio")>=0 && i("b2Tipo")>=0){
+    push("A19a","B.2", col(2+i("b2Tipo")), 151+i("espacio"), CAT.espacios19[i("espacio")], CAT.b2Tipos[i("b2Tipo")], 1, "1 taller", "¿Se cuenta el taller completo o cada sesión?");
+  }
+  if (r.tipo === "amigables" && i("b4Esp")>=0 && i("b4Tem")>=0){
+    const row = 167+i("b4Esp");
+    push("A19a","B.4", col(3+i("b4Tem")), row, CAT.b4Esp[i("b4Esp")], CAT.b4Tem[i("b4Tem")], 1, "1 taller");
+    push("A19a","B.4", "C", row, CAT.b4Esp[i("b4Esp")], "Total participantes", tot, "Hombres + mujeres");
+  }
+  if (r.tipo === "gestion" && i("b3Esp")>=0 && i("b3Tipo")>=0){
+    push("A19a","B.3", col(2+i("b3Tipo")), 158+i("b3Esp"), CAT.b3Esp[i("b3Esp")], CAT.b3Tipos[i("b3Tipo")], 1, "1 actividad");
+  }
+  if (r.tipo === "orientacion" && i("dDest")>=0 && r.dModo){
+    push("A19a","D", r.dModo==="individual"?"C":"D", 185+i("dDest"), "Orientación y/o educación · "+CAT.dDest[i("dDest")], r.dModo==="individual"?"Individual":"Grupal", 1, "1 actividad", "¿Se cuentan actividades o personas? ¿Se suma también en la fila 184?");
+  }
+  if (r.tipo === "participacion" && i("b19Tipo")>=0 && i("b19Inst")>=0){
+    const row = 62+i("b19Tipo"), fila = CAT.b19Tipos[i("b19Tipo")];
+    push("A19b","B.1", col(2+i("b19Inst")), row, fila, CAT.b19Inst[i("b19Inst")], 1, "1 actividad en la instancia");
+    if (r.tics) push("A19b","B.1","M",row,fila,"Uso de TICs y/o redes sociales",1,"Marcado en el formulario");
+    const pc = [["O","Hombres","h"],["P","Mujeres","m"],["Q","Trans masculino","tm"],["R","Trans femenina","tf"],["S","No binarie","nb"],["T","No revelado","nr"],["U","Pueblos originarios","po"],["V","Migrantes","mig"],["W","PRAIS","prais"]];
+    pc.forEach(([c,lab,k]) => push("A19b","B.1",c,row,fila,lab,+r[k]||0,"Participantes"));
+    if (i("b19Linea")>=0){
+      const row2 = 78+i("b19Linea"), fila2 = CAT.b19Lineas[i("b19Linea")];
+      push("A19b","B.2","B",row2,fila2,"N° de sesiones",+r.sesiones||1,"Sesiones");
+      const pc2 = [["D","Hombres","h"],["E","Mujeres","m"],["F","Trans masculino","tm"],["G","Trans femenina","tf"],["H","No binarie","nb"],["I","No revelado","nr"],["J","Pueblos originarios","po"],["K","Migrantes","mig"],["L","PRAIS","prais"]];
+      pc2.forEach(([c,lab,k]) => push("A19b","B.2",c,row2,fila2,lab,+r[k]||0,"Participantes","¿Los participantes se informan en B.1 y también en B.2?"));
+    }
+  }
+  return out;
+}
+
+// Lista de todas las celdas posibles (para la pestaña Reglas / Consolidado de la planilla)
+function allCells(){
+  const cells = [];
+  const add = (hoja,seccion,c,row,fila,columna,regla) => cells.push({hoja,seccion,celda:c+row,fila,columna,regla});
+  CAT.b1Acts.forEach(a => CAT.espacios19.forEach((e,ei) => {
+    CAT.condicionantes.forEach((cn,ci) => add("A19a","B.1",col(3+ci),a.row+ei,a.label+" · "+e,cn,"1 por actividad"));
+    add("A19a","B.1","O",a.row+ei,a.label+" · "+e,"Total participantes","Hombres + mujeres");
+  }));
+  CAT.espacios19.forEach((e,ei) => CAT.b2Tipos.forEach((t,ti) => add("A19a","B.2",col(2+ti),151+ei,e,t,"1 por taller")));
+  CAT.b3Esp.forEach((e,ei) => CAT.b3Tipos.forEach((t,ti) => add("A19a","B.3",col(2+ti),158+ei,e,t,"1 por actividad")));
+  CAT.b4Esp.forEach((e,ei) => { CAT.b4Tem.forEach((t,ti) => add("A19a","B.4",col(3+ti),167+ei,e,t,"1 por taller")); add("A19a","B.4","C",167+ei,e,"Total participantes","Hombres + mujeres"); });
+  CAT.dDest.forEach((d,di) => { add("A19a","D","C",185+di,"Orientación y/o educación · "+d,"Individual","1 por actividad"); add("A19a","D","D",185+di,"Orientación y/o educación · "+d,"Grupal","1 por actividad"); });
+  const p1 = [["O","Hombres"],["P","Mujeres"],["Q","Trans masculino"],["R","Trans femenina"],["S","No binarie"],["T","No revelado"],["U","Pueblos originarios"],["V","Migrantes"],["W","PRAIS"]];
+  CAT.b19Tipos.forEach((t,ti) => {
+    CAT.b19Inst.forEach((s,si) => add("A19b","B.1",col(2+si),62+ti,t,s,"1 por actividad"));
+    add("A19b","B.1","M",62+ti,t,"Uso de TICs y/o redes sociales","1 por actividad");
+    p1.forEach(([c,l]) => add("A19b","B.1",c,62+ti,t,l,"Participantes"));
+  });
+  const p2 = [["B","N° de sesiones"],["D","Hombres"],["E","Mujeres"],["F","Trans masculino"],["G","Trans femenina"],["H","No binarie"],["I","No revelado"],["J","Pueblos originarios"],["K","Migrantes"],["L","PRAIS"]];
+  CAT.b19Lineas.forEach((l,li) => p2.forEach(([c,lab]) => add("A19b","B.2",c,78+li,l,lab,lab==="N° de sesiones"?"Sesiones":"Participantes")));
+  CAT.a27Temas.forEach(([row,t]) => CAT.a27Quien.forEach((q,qi) => add("A27","B",col(4+qi),row,t,q,"Sesiones")));
+  return cells;
+}
+
+
+
+const SAMPLES = [
+ {codigo:"C5-2610-K7Q3",nombre:"Feria de salud en la plaza",fecha:"2026-10-03",estado:"Realizada",responsable:"Equipo promoción",equipo:"Promoción de la salud",tipo:"promo",b1Act:0,espacio:0,cond:0,sesiones:1,h:48,m:71,po:9,mig:22,prais:0,meta:100},
+ {codigo:"C5-2610-M2XW",nombre:"Educación grupal alimentación saludable",fecha:"2026-10-08",estado:"Realizada",responsable:"Nutricionista sector 2",equipo:"Programa cardiovascular",tipo:"promo",b1Act:3,espacio:0,cond:1,alsoA27:true,a27Tema:28,a27Quien:0,sesiones:1,h:4,m:11,po:2,mig:3,prais:0,meta:12},
+ {codigo:"C5-2610-P9DH",nombre:"Taller Yo me cuido",fecha:"2026-10-10",estado:"Realizada",responsable:"Psicóloga",equipo:"Salud mental",tipo:"vidasana",espacio:3,b2Tipo:3,sesiones:4,h:6,m:9,po:1,mig:4,prais:0,meta:15},
+ {codigo:"C5-2610-T4RB",nombre:"Reunión mesa territorial Estación Central",fecha:"2026-10-15",estado:"Realizada",responsable:"Trabajador social",equipo:"Participación social",tipo:"participacion",b19Tipo:3,b19Inst:5,b19Linea:-1,tics:false,sesiones:1,h:5,m:8,po:1,mig:2,prais:0,meta:12},
+ {codigo:"C5-2610-W8NA",nombre:"Trawün de salud intercultural",fecha:"2026-10-22",estado:"Realizada",responsable:"Facilitadora intercultural",equipo:"PESPI",tipo:"participacion",b19Tipo:5,b19Inst:7,b19Linea:12,tics:false,sesiones:1,h:12,m:19,po:27,mig:3,prais:0,meta:25},
+ {codigo:"C5-2610-H3ZJ",nombre:"Preparación material taller climaterio",fecha:"2026-10-24",estado:"Realizada",responsable:"Matrona",equipo:"Salud de la mujer",tipo:"gestion",b3Esp:6,b3Tipo:3,sesiones:1,h:0,m:0,po:0,mig:0,prais:0,meta:0},
+ {codigo:"C5-2611-B6FU",nombre:"Cuenta pública participativa 2026",fecha:"2026-11-12",estado:"Programada",responsable:"Dirección",equipo:"Participación social",tipo:"participacion",b19Tipo:8,b19Inst:2,b19Linea:0,tics:true,sesiones:1,h:0,m:0,po:0,mig:0,prais:0,meta:80},
+ {codigo:"C5-2611-R5CY",nombre:"Taller de prevención de caídas",fecha:"2026-11-05",estado:"Programada",responsable:"Kinesiólogo",equipo:"Más Adultos Mayores Autovalentes",tipo:"promo",b1Act:3,espacio:0,cond:0,alsoA27:true,a27Tema:30,a27Quien:0,sesiones:3,h:0,m:0,po:0,mig:0,prais:0,meta:15}
+];
+
+
+
+// ===== Configuración =====
+// Pega aquí la URL de la aplicación web de Google Apps Script para guardar en Google Sheets.
+// Si queda vacía, los registros se guardan solo en este navegador.
+const ENDPOINT = "";
+const STORE_KEY = "c5-registro-rem-v1";
+
+// ===== Almacenamiento =====
+let mem = [];
+function load(){ try{ const v = localStorage.getItem(STORE_KEY); return v ? JSON.parse(v) : mem; }catch(e){ return mem; } }
+function save(list){ mem = list; try{ localStorage.setItem(STORE_KEY, JSON.stringify(list)); }catch(e){} }
+async function sendRemote(rec){
+  if(!ENDPOINT) return;
+  try{ await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({registro:rec,salidas:rec.estado==="Realizada"?remOutputs(rec):[]})}); }
+  catch(e){ toast("No se pudo enviar a Google Sheets. Quedó guardado en este navegador."); }
+}
+
+// ===== Utilidades =====
+const $ = s => document.querySelector(s);
+const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const opts = (arr, ph) => `<option value="">${ph||"Elige una opción"}</option>` + arr.map((t,i)=>`<option value="${i}">${esc(t)}</option>`).join("");
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("on"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("on"),3200); }
+function newCode(fecha){
+  const ym = (fecha||new Date().toISOString().slice(0,10)).slice(2,7).replace("-","");
+  const abc="ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let s="";
+  const rnd = crypto.getRandomValues(new Uint32Array(4)); rnd.forEach(n=>s+=abc[n%abc.length]);
+  return `C5-${ym}-${s}`;
+}
+const tipoLabel = id => (CAT.tipos.find(t=>t.id===id)||{}).label||id;
+
+// ===== Formulario =====
+$("#types").innerHTML = CAT.tipos.map(t=>`<label class="type"><input type="radio" name="tipo" value="${t.id}"><strong>${esc(t.label)}</strong><span>${esc(t.hint)}</span></label>`).join("");
+
+const DETAIL = {
+  promo: () => `
+    <div class="field"><label for="b1Act">Formato</label><select id="b1Act" name="b1Act">${opts(CAT.b1Acts.map(a=>a.label))}</select></div>
+    <div class="field"><label for="espacio">¿Dónde o con quién?</label><select id="espacio" name="espacio">${opts(CAT.espacios19)}</select></div>
+    <div class="field"><label for="cond">Tema principal</label><select id="cond" name="cond">${opts(CAT.condicionantes)}</select>
+      <p class="hint">El REM cuenta cada actividad en una sola condicionante: elige la principal.</p></div>
+    <div id="a27Box" hidden>
+      <label class="check"><input type="checkbox" id="alsoA27" name="alsoA27"> <span>Registrar también como educación para la salud (REM A27)</span></label>
+      <div id="a27Fields" hidden style="margin-top:12px">
+        <div class="field"><label for="a27Tema">Área temática A27</label><select id="a27Tema" name="a27Tema">${opts(CAT.a27Temas.map(t=>t[1]))}</select></div>
+        <div class="field"><label for="a27Quien">¿Quién la realizó?</label><select id="a27Quien" name="a27Quien">${opts(CAT.a27Quien)}</select></div>
+      </div>
+    </div>`,
+  vidasana: () => `
+    <div class="field"><label for="espacio">¿Dónde o con quién?</label><select id="espacio" name="espacio">${opts(CAT.espacios19)}</select></div>
+    <div class="field"><label for="b2Tipo">Tipo de taller</label><select id="b2Tipo" name="b2Tipo">${opts(CAT.b2Tipos)}</select></div>`,
+  amigables: () => `
+    <div class="field"><label for="b4Esp">¿Dónde?</label><select id="b4Esp" name="b4Esp">${opts(CAT.b4Esp)}</select></div>
+    <div class="field"><label for="b4Tem">Temática del taller</label><select id="b4Tem" name="b4Tem">${opts(CAT.b4Tem)}</select></div>`,
+  gestion: () => `
+    <div class="field"><label for="b3Tipo">Tipo de actividad</label><select id="b3Tipo" name="b3Tipo">${opts(CAT.b3Tipos)}</select></div>
+    <div class="field"><label for="b3Esp">¿Para qué espacio de acción?</label><select id="b3Esp" name="b3Esp">${opts(CAT.b3Esp)}</select></div>`,
+  orientacion: () => `
+    <div class="field"><label for="dDest">¿A quién estuvo dirigida?</label><select id="dDest" name="dDest">${opts(CAT.dDest)}</select></div>
+    <div class="field"><label>Modalidad</label><div class="seg"><label><input type="radio" name="dModo" value="individual"> Individual</label><label><input type="radio" name="dModo" value="grupal"> Grupal</label></div></div>`,
+  participacion: () => `
+    <div class="field"><label for="b19Tipo">Tipo de actividad</label><select id="b19Tipo" name="b19Tipo">${opts(CAT.b19Tipos)}</select></div>
+    <div class="field"><label for="b19Inst">Instancia de participación</label><select id="b19Inst" name="b19Inst">${opts(CAT.b19Inst)}</select></div>
+    <div class="field"><label for="b19Linea">Línea de acción (si corresponde)</label><select id="b19Linea" name="b19Linea">${opts(CAT.b19Lineas,"No corresponde")}</select>
+      <p class="hint">Cuentas públicas, diálogos ciudadanos, diagnósticos participativos, actividades con pueblos originarios o migrantes.</p></div>
+    <label class="check"><input type="checkbox" id="tics" name="tics"> <span>Se usaron TICs o redes sociales (actividad virtual o difundida en redes)</span></label>`
+};
+
+const form = $("#f");
+let editing = null; // código del registro en edición
+
+function renderDetail(tipo){
+  $("#detail").hidden = !tipo;
+  $("#detailBody").innerHTML = tipo ? DETAIL[tipo]() : "";
+  $("#genderBox").hidden = tipo !== "participacion";
+}
+function readForm(){
+  const fd = new FormData(form), r = {};
+  for (const [k,v] of fd.entries()) r[k]=v;
+  r.alsoA27 = !!form.querySelector("#alsoA27")?.checked;
+  r.tics = !!form.querySelector("#tics")?.checked;
+  ["sesiones","h","m","po","mig","prais","tm","tf","nb","nr","meta"].forEach(k=> r[k] = r[k]===""||r[k]==null ? 0 : +r[k]);
+  if (r.estado !== "Programada") r.meta = +$("#meta2").value || 0;
+  if (r.b19Linea === "" || r.b19Linea == null) r.b19Linea = -1;
+  return r;
+}
+function fillForm(r){
+  form.reset(); $("#meta2").value="";
+  ["nombre","fecha","responsable","equipo","obs"].forEach(k=>{ if(form[k]) form[k].value = r[k]??""; });
+  form.querySelector(`input[name=estado][value="${r.estado}"]`).checked = true;
+  const t = form.querySelector(`input[name=tipo][value="${r.tipo}"]`); if(t) t.checked = true;
+  renderDetail(r.tipo);
+  ["b1Act","espacio","cond","a27Tema","a27Quien","b2Tipo","b3Tipo","b3Esp","b4Esp","b4Tem","dDest","b19Tipo","b19Inst"].forEach(k=>{ const el=form.querySelector("#"+k); if(el && r[k]!=null && r[k]!=="") el.value = r[k]; });
+  const l=form.querySelector("#b19Linea"); if(l) l.value = (r.b19Linea>=0? r.b19Linea : "");
+  if (r.alsoA27) form.querySelector("#alsoA27").checked = true;
+  if (r.tics) form.querySelector("#tics").checked = true;
+  if (r.dModo) form.querySelector(`input[name=dModo][value="${r.dModo}"]`).checked = true;
+  ["sesiones","h","m","po","mig","prais","tm","tf","nb","nr"].forEach(k=>{ form[k].value = r[k]||""; });
+  form.sesiones.value = r.sesiones||1;
+  $("#meta").value = r.meta||""; $("#meta2").value = r.meta||"";
+  update();
+}
+
+let lastCells = new Set();
+function update(){
+  const r = readForm();
+  const prog = r.estado === "Programada";
+  $("#metaBox").hidden = !prog; $("#realBox").hidden = prog;
+  $("#tot").textContent = (r.h||0)+(r.m||0);
+  const a27 = form.querySelector("#a27Box"); if (a27) a27.hidden = String(r.b1Act) !== "3";
+  const a27f = form.querySelector("#a27Fields"); if (a27f) a27f.hidden = !r.alsoA27;
+  $("#codeView").textContent = editing || "se asigna al guardar";
+  const outs = remOutputs(r);
+  const note = $("#stateNote");
+  if (prog){ note.hidden=false; note.textContent="Actividad programada: estas celdas se sumarán al REM recién cuando registres su realización."; }
+  else if (r.estado==="Suspendida"){ note.hidden=false; note.textContent="Actividad suspendida: no suma al REM, pero queda registrada para la cobertura."; }
+  else note.hidden = true;
+  const ul = $("#cells");
+  if (!outs.length){ ul.innerHTML = `<li class="empty" style="display:block">${r.tipo? "Completa los detalles para ver las celdas del REM." : "Elige el tipo de actividad y completa los detalles. Aquí verás en qué celdas del REM quedará registrada."}</li>`; lastCells=new Set(); return; }
+  const now = new Set();
+  ul.innerHTML = outs.map(o=>{
+    const key = o.hoja+o.celda; now.add(key);
+    return `<li class="${lastCells.has(key)?"":"new"}"><span class="ref">${o.hoja} <b>${o.celda}</b></span>
+      <span class="cell-desc">${esc(o.fila)}<small>${esc(o.columna)} · sección ${o.seccion}</small></span>
+      <span class="cell-val">${prog?"(":""}${o.valor}${prog?")":""}</span>
+      ${o.validar?`<span class="flag">${esc(o.validar)}</span>`:""}</li>`;
+  }).join("");
+  lastCells = now;
+}
+form.addEventListener("input", update);
+form.addEventListener("change", e=>{ if(e.target.name==="tipo"){ renderDetail(e.target.value); } update(); });
+
+function validate(r){
+  const e=[];
+  if(!r.nombre?.trim()) e.push("Escribe el nombre de la actividad.");
+  if(!r.fecha) e.push("Indica la fecha.");
+  if(!r.tipo) e.push("Elige el tipo de actividad.");
+  else if(!remOutputs(r).filter(o=>!/participantes|Hombres|Mujeres|sesiones/i.test(o.columna)).length) e.push("Completa los detalles de la actividad.");
+  if(r.estado==="Realizada"){
+    const tot=(r.h||0)+(r.m||0);
+    ["po","mig","prais"].forEach(k=>{ if(r[k]>tot) e.push(`${({po:"Pueblos originarios",mig:"Migrantes",prais:"PRAIS"})[k]} no puede superar el total de participantes (${tot}).`); });
+    if(r.tipo!=="gestion" && tot===0) e.push("Indica cuántos hombres y mujeres participaron.");
+  }
+  return e;
+}
+form.addEventListener("submit", ev=>{
+  ev.preventDefault();
+  const r = readForm(), e = validate(r);
+  $("#errs").innerHTML = e.map(x=>`<p class="err">${esc(x)}</p>`).join("");
+  if(e.length) return;
+  const list = load();
+  r.codigo = editing || newCode(r.fecha);
+  r.actualizado = new Date().toISOString();
+  const idx = list.findIndex(x=>x.codigo===r.codigo);
+  if(idx>=0) list[idx]=r; else list.push(r);
+  save(list); sendRemote(r);
+  toast(`Registro guardado: ${r.codigo}`);
+  editing=null; form.reset(); renderDetail(null); $("#meta2").value=""; form.fecha.value=new Date().toISOString().slice(0,10); update(); renderList(); renderCons();
+});
+$("#resetBtn").onclick=()=>{ editing=null; form.reset(); renderDetail(null); form.fecha.value=new Date().toISOString().slice(0,10); $("#errs").innerHTML=""; update(); };
+
+// ===== Pestañas =====
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav.tabs button").forEach(x=>x.setAttribute("aria-selected", x===b));
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on", v.id===b.dataset.view));
+  if(b.dataset.view==="v-list") renderList(); if(b.dataset.view==="v-cons") renderCons();
+});
+function goReg(){ document.querySelector('[data-view="v-reg"]').click(); window.scrollTo(0,0); }
+
+// ===== Lista =====
+function renderList(){
+  const mes=$("#fMes").value, est=$("#fEst").value;
+  const list = load().filter(r=>(!mes||r.fecha.startsWith(mes))&&(!est||r.estado===est)).sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  if(!list.length){ $("#tList").innerHTML=`<tr><td class="empty">No hay actividades para este filtro. Registra una o usa "Cargar ejemplos".</td></tr>`; return; }
+  $("#tList").innerHTML = `<thead><tr><th>Código</th><th>Fecha</th><th>Actividad</th><th>Tipo</th><th>Estado</th><th class="num">Meta</th><th class="num">Participantes</th><th></th></tr></thead><tbody>`+
+   list.map(r=>`<tr><td class="mono">${r.codigo}</td><td style="white-space:nowrap">${r.fecha}</td><td>${esc(r.nombre)}<br><small style="color:var(--muted)">${esc(r.equipo||"")}</small></td><td>${esc(tipoLabel(r.tipo))}</td>
+   <td><span class="badge ${r.estado}">${r.estado}</span></td><td class="num">${r.meta||"—"}</td><td class="num">${r.estado==="Realizada"?(r.h||0)+(r.m||0):"—"}</td>
+   <td style="white-space:nowrap">${r.estado==="Programada"?`<button class="btn small" data-act="real" data-c="${r.codigo}">Registrar realización</button> `:""}<button class="btn small ghost" data-act="edit" data-c="${r.codigo}">Editar</button> <button class="btn small danger" data-act="del" data-c="${r.codigo}">Eliminar</button></td></tr>`).join("")+`</tbody>`;
+}
+$("#tList").addEventListener("click", e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  const list=load(), r=list.find(x=>x.codigo===b.dataset.c); if(!r) return;
+  if(b.dataset.act==="del"){ if(confirm(`¿Eliminar ${r.codigo}?`)){ save(list.filter(x=>x!==r)); renderList(); renderCons(); } return; }
+  editing=r.codigo; const copy={...r}; if(b.dataset.act==="real") copy.estado="Realizada";
+  goReg(); fillForm(copy);
+  if(b.dataset.act==="real") toast("Completa las cifras reales y guarda. El código se mantiene.");
+});
+$("#fMes").oninput=renderList; $("#fEst").onchange=renderList;
+$("#demoBtn").onclick=()=>{ const list=load(); SAMPLES.forEach(s=>{ if(!list.some(x=>x.codigo===s.codigo)) list.push({...s}); }); save(list); $("#fMes").value=""; $("#cMes").value="2026-10"; renderList(); renderCons(); toast("Ejemplos cargados: octubre y noviembre 2026."); };
+
+// ===== Consolidado =====
+function consolidate(mes){
+  const map=new Map();
+  load().filter(r=>r.estado==="Realizada"&&r.fecha.startsWith(mes)).forEach(r=>remOutputs(r).forEach(o=>{
+    const k=o.hoja+"|"+o.celda; const cur=map.get(k)||{...o,valor:0,codigos:[]};
+    cur.valor+=o.valor; if(!cur.codigos.includes(r.codigo)) cur.codigos.push(r.codigo); map.set(k,cur);
+  }));
+  const rowOf=c=>+c.replace(/\D/g,""), colOf=c=>c.replace(/\d/g,"");
+  return [...map.values()].sort((a,b)=>a.hoja.localeCompare(b.hoja)||rowOf(a.celda)-rowOf(b.celda)||colOf(a.celda).localeCompare(colOf(b.celda)));
+}
+function renderCons(){
+  const mes=$("#cMes").value; const rows=consolidate(mes);
+  if(!rows.length){ $("#tCons").innerHTML=`<tr><td class="empty">No hay actividades realizadas en este mes.</td></tr>`; }
+  else{
+    let html=`<thead><tr><th>Hoja</th><th>Celda</th><th>Fila del REM</th><th>Columna del REM</th><th class="num">Valor</th><th>Registros</th></tr></thead><tbody>`, last="";
+    rows.forEach(o=>{ const g=o.hoja+" · sección "+o.seccion; if(g!==last){ html+=`<tr class="group"><td colspan="6">${g}</td></tr>`; last=g; }
+      html+=`<tr><td>${o.hoja}</td><td class="mono"><span class="ref"><b>${o.celda}</b></span></td><td>${esc(o.fila)}</td><td>${esc(o.columna)}</td><td class="num"><strong>${o.valor}</strong></td><td class="mono">${o.codigos.join("<br>")}</td></tr>`; });
+    $("#tCons").innerHTML=html+"</tbody>";
+  }
+  const all=load().filter(r=>r.fecha.startsWith(mes)).sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  $("#tCob").innerHTML = all.length? `<thead><tr><th>Código</th><th>Fecha</th><th>Actividad</th><th>Equipo</th><th>Estado</th><th class="num">Meta</th><th class="num">Logrado</th><th class="num">Cumplimiento</th></tr></thead><tbody>`+
+    all.map(r=>{ const got=r.estado==="Realizada"?(r.h||0)+(r.m||0):0; const pct=r.meta?Math.round(got/r.meta*100)+"%":"—";
+      return `<tr><td class="mono">${r.codigo}</td><td style="white-space:nowrap">${r.fecha}</td><td>${esc(r.nombre)}</td><td>${esc(r.equipo||"")}</td><td><span class="badge ${r.estado}">${r.estado}</span></td><td class="num">${r.meta||"—"}</td><td class="num">${r.estado==="Realizada"?got:"—"}</td><td class="num">${pct}</td></tr>`;}).join("")+"</tbody>"
+    : `<tr><td class="empty">No hay actividades programadas ni realizadas en este mes.</td></tr>`;
+}
+$("#cMes").oninput=renderCons;
+
+// ===== CSV =====
+function dl(name, rows){
+  const csv="\ufeff"+rows.map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(";")).join("\r\n");
+  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download=name; a.click();
+}
+$("#csvReg").onclick=()=>{
+  const ks=["codigo","fecha","estado","nombre","responsable","equipo","tipo","sesiones","h","m","po","mig","prais","tm","tf","nb","nr","meta","obs"];
+  const rows=[ks.concat(["detalle_rem"])];
+  load().forEach(r=>rows.push(ks.map(k=>k==="tipo"?tipoLabel(r.tipo):r[k]).concat([remOutputs(r).map(o=>o.hoja+"!"+o.celda+"="+o.valor).join(" | ")])));
+  dl("registro_actividades_c5.csv",rows);
+};
+$("#csvCons").onclick=()=>{
+  const mes=$("#cMes").value; const rows=[["mes","hoja","seccion","celda","fila","columna","valor","codigos"]];
+  consolidate(mes).forEach(o=>rows.push([mes,o.hoja,o.seccion,o.celda,o.fila,o.columna,o.valor,o.codigos.join(" ")]));
+  dl(`consolidado_rem_${mes}.csv`,rows);
+};
+
+// ===== Inicio =====
+const today=new Date(); const ym=today.toISOString().slice(0,7);
+form.fecha.value=today.toISOString().slice(0,10); $("#cMes").value=ym;
+update(); renderList(); renderCons();
+</script>
+</body>
+</html>
